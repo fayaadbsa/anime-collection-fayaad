@@ -13,14 +13,23 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "jsxImportSource": "@emotion/react",
 
     /* Linting */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    
-    "baseUrl": ".",
+
+    // "baseUrl": "src",
+    // "paths": {
+    //   "@/*": ["*"]
+    // }
+    // "baseUrl": ".",
+    // "paths": {
+    //   "@/*": ["./src/*"]
+    // }
+    // "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }

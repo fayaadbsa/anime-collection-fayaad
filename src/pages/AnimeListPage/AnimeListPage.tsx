@@ -1,7 +1,14 @@
+import AnimeCard from "@/components/Card/AnimeCard";
+import { AnimeCardType } from "@/types";
 import { gql, useQuery } from "@apollo/client";
+import Pagination from "@mui/material/Pagination";
+import useMediaQuery from "@mui/material/useMediaQuery";
+import { useTheme } from "@mui/material/styles";
+import React, { useEffect, useState } from "react";
+import Typography from "@mui/material/Typography";
 
 var GET_ANIME_LIST = gql(`
-  query ($id: Int, $page: Int, $perPage: Int, $search: String) {
+  query ($page: Int, $perPage: Int) {
     Page(page: $page, perPage: $perPage) {
       pageInfo {
         total
@@ -10,7 +17,7 @@ var GET_ANIME_LIST = gql(`
         hasNextPage
         perPage
       }
-      media(id: $id, search: $search) {
+      media {
         id
         title {
           english
@@ -18,57 +25,93 @@ var GET_ANIME_LIST = gql(`
           native
         }
         coverImage {
-          large
+          extraLarge
         }
         bannerImage
+        description(asHtml: true)
       }
     }
   }
 `);
 
-type Anime = {};
+const AnimeListPage = () => {
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(500);
 
-const AnimeList = () => {
   const { loading, error, data } = useQuery(GET_ANIME_LIST, {
     variables: {
-      // search: "Fate/Zero",
-      page: 1,
-      // perPage: 3,
+      page: page,
+      perPage: 10,
     },
   });
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error : {error.message}</p>;
+  useEffect(() => {
+    if (loading || error || !data) {
+      return;
+    }
+    setTotalPage(data?.Page?.pageInfo.lastPage);
+  }, [data]);
 
-  console.log(data);
-  const { media, pageInfo } = data.Page;
-  console.log(media);
+  const handlePageChage = (
+    event: React.ChangeEvent<unknown>,
+    value: number
+  ) => {
+    setPage(value);
+  };
 
-  return media.map((anime) => {
-    return <div key={anime?.id}>{anime.title.romaji}</div>;
-  });
-
-  return "";
-  // return data.locations.map(({ id, name, description, photo }) => (
-  //   <div key={id}>
-  //     <h3>{name}</h3>
-  //     <img width="400" height="250" alt="location-reference" src={`${photo}`} />
-  //     <br />
-  //     <b>About this location:</b>
-  //     <p>{description}</p>
-  //     <br />
-  //   </div>
-  // ));
-};
-
-const AnimeListPage = () => {
   return (
-    <div>
-      <br />
-      <AnimeList />
-      {/* <Dogs /> */}
-      <br />
-      {/* <DisplayLocations /> */}
+    <div
+      css={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}
+    >
+      <Typography
+        gutterBottom
+        variant="h2"
+        component="div"
+        sx={{ color: "primary.main" }}
+      >
+        Anime List
+      </Typography>
+      <div
+        css={{
+          minHeight: "1028px",
+        }}
+      >
+        {!loading && !error && (
+          <div
+            css={{
+              display: "grid",
+              gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+              gap: "32px",
+              marginTop: "40px",
+            }}
+          >
+            {data.Page.media.map((anime: AnimeCardType) => {
+              return <AnimeCard anime={anime} />;
+            })}
+          </div>
+        )}
+      </div>
+      <div
+        css={{
+          marginTop: 40,
+          backgroundColor: "whitesmoke",
+          padding: 16,
+          borderRadius: 96,
+        }}
+      >
+        <Pagination
+          count={totalPage}
+          color="primary"
+          size={!matches ? "small" : "large"}
+          onChange={handlePageChage}
+        />
+      </div>
     </div>
   );
 };
