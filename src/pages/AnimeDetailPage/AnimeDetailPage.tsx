@@ -1,10 +1,11 @@
 import { gql, useQuery } from "@apollo/client";
-import { Button, IconButton, Typography } from "@mui/material";
+import { Button, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { FavoriteRounded, StarRounded } from "@mui/icons-material";
 import { capitalCase } from "change-case";
 import { AnimeDetailType } from "@/types";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
+import useAppStore from "@/store/useAppStore";
 
 const GET_ANIME_DETAIL = gql(`
   query ($id: Int) {

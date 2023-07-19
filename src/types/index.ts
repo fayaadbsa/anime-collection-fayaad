@@ -24,14 +24,6 @@ export type RankingsType = {
 
 // SPECIFIC TYPES
 
-export type AnimeCardType = {
-  id: number;
-  title: TitleType;
-  description: string;
-  bannerImage: string;
-  coverImage: CoverImageType;
-};
-
 export type AnimeDetailType = {
   id: number;
   title: TitleType;
@@ -48,4 +40,20 @@ export type AnimeDetailType = {
   averageScore: number;
   meanScore: number;
   rankings: RankingsType[];
+};
+
+export type AnimeCardType = {
+  id: number;
+  title: TitleType;
+  description: string;
+  coverImage: CoverImageType;
+};
+
+export type CollectionDetailType = {
+  name: string;
+  animes: AnimeCardType[];
+};
+
+export type CollectionsType = {
+  [name: string]: CollectionDetailType;
 };

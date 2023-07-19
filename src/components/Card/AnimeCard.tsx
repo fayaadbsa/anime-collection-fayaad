@@ -6,7 +6,7 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea } from "@mui/material";
 import { Link } from "react-router-dom";
 
-type Props = {
+type PropsType = {
   anime: AnimeCardType;
 };
 
@@ -14,7 +14,7 @@ type Props = {
 // add skeleton
 // remove desc, show other info
 
-const AnimeCard = ({ anime }: Props) => {
+const AnimeCard = ({ anime }: PropsType) => {
   const { id, title, bannerImage, coverImage, description } = anime;
   const { romaji } = title;
   const { extraLarge } = coverImage;
