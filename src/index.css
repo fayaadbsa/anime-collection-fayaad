@@ -20,6 +20,11 @@ body {
   background: #11100e;
 }
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 /* a {
   font-weight: 500;
   color: #646cff;

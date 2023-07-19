@@ -7,7 +7,7 @@ import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 
-var GET_ANIME_LIST = gql(`
+const GET_ANIME_LIST = gql(`
   query ($page: Int, $perPage: Int) {
     Page(page: $page, perPage: $perPage) {
       pageInfo {
@@ -20,15 +20,13 @@ var GET_ANIME_LIST = gql(`
       media {
         id
         title {
-          english
           romaji
-          native
         }
         coverImage {
           extraLarge
         }
         bannerImage
-        description(asHtml: true)
+        description(asHtml: false)
       }
     }
   }
