@@ -1,9 +1,10 @@
 import { gql, useQuery } from "@apollo/client";
-import { Typography } from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { FavoriteRounded, StarRounded } from "@mui/icons-material";
 import { capitalCase } from "change-case";
 import { AnimeDetailType } from "@/types";
+import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 
 const GET_ANIME_DETAIL = gql(`
   query ($id: Int) {
@@ -97,6 +98,10 @@ const AnimeDetailPage = () => {
   } = anime;
   const { extraLarge } = coverImage;
 
+  const handleBookmark = () => {
+    // cek bookmark
+  };
+
   return (
     <div
       css={{
@@ -114,26 +119,63 @@ const AnimeDetailPage = () => {
               gap: 40,
             }}
           >
-            <div>
+            <div
+              css={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
               <Typography
                 gutterBottom
-                variant="h2"
+                variant="h3"
                 sx={{ color: "primary.main" }}
               >
                 {title.romaji}
               </Typography>
-              <Typography gutterBottom variant="h5" sx={{ color: "white" }}>
+              <Typography gutterBottom variant="h6" sx={{ color: "white" }}>
                 Episodes: {episodes}
               </Typography>
-              <Typography gutterBottom variant="h5" sx={{ color: "white" }}>
+              <Typography gutterBottom variant="h6" sx={{ color: "white" }}>
                 Genres: {genres.join(", ")}
               </Typography>
+              <Typography gutterBottom variant="body2" color="white">
+                <div dangerouslySetInnerHTML={{ __html: description }} />
+              </Typography>
+              <div
+                css={{
+                  display: "flex",
+                }}
+              >
+                <Button
+                  onClick={handleBookmark}
+                  sx={{ color: "white" }}
+                  variant="contained"
+                >
+                  <BookmarkBorderRoundedIcon
+                    sx={{
+                      fontSize: 20,
+                      marginRight: "8px",
+                    }}
+                  />
+                  <Typography variant="button">Add To Collection</Typography>
+                </Button>
+              </div>
+            </div>
+            <div
+              css={{
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <div>
+                <img src={extraLarge} alt="cover" width={"300px"} />
+              </div>
               <div
                 css={{
                   display: "flex",
                   flexDirection: "column",
                   gap: "4px",
-                  width: "fit-content",
+                  // width: "fit-content",
                 }}
               >
                 {rankings.length > 0 &&
@@ -179,11 +221,7 @@ const AnimeDetailPage = () => {
                       )
                   )}
               </div>
-              <Typography variant="body2" color="white">
-                <div dangerouslySetInnerHTML={{ __html: description }} />
-              </Typography>
             </div>
-            <img src={extraLarge} alt="cover" width={"300px"} />
           </div>
         </div>
       )}

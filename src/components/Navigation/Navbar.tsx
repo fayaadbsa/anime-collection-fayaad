@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Divider from "@mui/material/Divider";
@@ -12,8 +12,11 @@ import ListItemText from "@mui/material/ListItemText";
 import MenuIcon from "@mui/icons-material/Menu";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
+import { Button } from "@mui/material";
 
-const NAV_ITEMS = [
+const BRAND = "iYIYI";
+
+const MENUS = [
   {
     path: "/",
     label: "For You",
@@ -23,7 +26,6 @@ const NAV_ITEMS = [
     label: "Collections",
   },
 ];
-const BRAND = "iYIYI";
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = React.useState(false);
@@ -50,29 +52,49 @@ const Navbar = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography
-            variant="h6"
-            component="div"
+          <Box
             sx={{
-              flexGrow: 1,
-              display: { xs: "none", sm: "block" },
-              color: "primary.main",
+              display: { xs: "none", sm: "flex" },
+              alignItems: "center",
+              gap: "32px",
             }}
           >
-            {BRAND}
-          </Typography>
-          <Box sx={{ display: { xs: "none", sm: "flex" }, gap: "32px" }}>
-            {NAV_ITEMS.map((item) => (
-              <Link
+            <Link to="/">
+              <Typography
+                variant="h4"
+                component="div"
+                sx={{
+                  flexGrow: 1,
+                  display: { xs: "none", sm: "block" },
+                  color: "primary.main",
+                }}
+              >
+                {BRAND}
+              </Typography>
+            </Link>
+            {MENUS.map((item) => (
+              <NavLink
                 key={item.label}
                 to={item.path}
+                style={({ isActive }) => {
+                  if (!isActive) {
+                    return;
+                  }
+                  return {
+                    fontWeight: 700,
+                    color: "white",
+                  };
+                }}
                 css={{
-                  color: "white",
+                  color: "lightgray",
                   textDecoration: "none",
+                  ":hover": {
+                    // color: "orange",
+                  },
                 }}
               >
                 {item.label}
-              </Link>
+              </NavLink>
             ))}
           </Box>
         </Toolbar>
@@ -99,7 +121,7 @@ const Navbar = () => {
             </Typography>
             <Divider />
             <List>
-              {NAV_ITEMS.map((item) => (
+              {MENUS.map((item) => (
                 <ListItem key={item.label} disablePadding>
                   <ListItemButton sx={{ textAlign: "center" }}>
                     <ListItemText primary={item.label} />
