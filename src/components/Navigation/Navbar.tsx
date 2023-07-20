@@ -9,7 +9,7 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemText from "@mui/material/ListItemText";
-import MenuIcon from "@mui/icons-material/Menu";
+import { MenuRounded } from "@mui/icons-material";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
@@ -50,7 +50,7 @@ const Navbar = () => {
             onClick={handleDrawerToggle}
             sx={{ mr: 2, display: { sm: "none" }, color: "white" }}
           >
-            <MenuIcon />
+            <MenuRounded />
           </IconButton>
           <Box
             sx={{

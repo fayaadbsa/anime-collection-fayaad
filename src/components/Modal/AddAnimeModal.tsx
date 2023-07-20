@@ -3,10 +3,8 @@ import BaseModal from "./BaseModal";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
-import Checkbox from "@mui/material/Checkbox";
 import useAppStore from "@/store/useAppStore";
 import { AnimeCardType, CollectionsType } from "@/types";
-import { BookmarkBorder, Bookmark } from "@mui/icons-material";
 import { Link } from "react-router-dom";
 import CollectionForm from "../Form/CollectionForm";
 
@@ -15,8 +13,6 @@ type PropsType = {
   handleClose: () => void;
   anime: AnimeCardType;
 };
-
-// sort by saved
 
 const AddAnimeModal = ({ open, handleClose, anime }: PropsType) => {
   const collections: CollectionsType = useAppStore(
@@ -33,21 +29,11 @@ const AddAnimeModal = ({ open, handleClose, anime }: PropsType) => {
   const addAnimeToCollection = useAppStore(
     (state) => state.addAnimeToCollection
   );
-  const removeAnimeFromCollection = useAppStore(
-    (state) => state.removeAnimeFromCollection
-  );
 
   const handleCreatedCollection = () => setHasCollection(true);
 
-  const handleBookmark = (
-    event: React.ChangeEvent<HTMLInputElement>,
-    collectionName: string
-  ) => {
-    if (event.target.checked) {
-      addAnimeToCollection(anime, collectionName);
-      return;
-    }
-    removeAnimeFromCollection(anime.id, collectionName);
+  const handleAdd = (collectionName: string) => {
+    addAnimeToCollection(anime, collectionName);
   };
 
   return (
@@ -62,34 +48,41 @@ const AddAnimeModal = ({ open, handleClose, anime }: PropsType) => {
           <Typography gutterBottom variant="h6">
             Add To Collection
           </Typography>
-          <div>
+          <div
+            css={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "8px",
+            }}
+          >
             {collectionsFiltered.map((collection) => (
               <div
                 css={{
                   display: "flex",
                   alignItems: "center",
+                  justifyContent: "space-between",
                 }}
               >
-                <Checkbox
-                  checked={collection.isSaved}
-                  onChange={(event) => handleBookmark(event, collection.name)}
-                  icon={<BookmarkBorder />}
-                  checkedIcon={<Bookmark />}
-                  inputProps={{ "aria-label": "bookmark" }}
-                />
-                <Link
-                  to={`/collection/${collection.name}`}
-                  css={{ width: "100%" }}
-                >
-                  <Button
-                    fullWidth
+                <Link to={`/collection/${collection.name}`}>
+                  <Typography
                     sx={{
                       justifyContent: "start",
+                      textDecoration: "underline",
+                      color: "primary.main",
                     }}
                   >
-                    <Typography>{collection.name}</Typography>
-                  </Button>
+                    {collection.name}
+                  </Typography>
                 </Link>
+                <Button
+                  variant="contained"
+                  disabled={collection.isSaved}
+                  onClick={() => handleAdd(collection.name)}
+                >
+                  <Typography>
+                    {collection.isSaved ? "Added" : "Add"}
+                  </Typography>
+                </Button>
               </div>
             ))}
           </div>
