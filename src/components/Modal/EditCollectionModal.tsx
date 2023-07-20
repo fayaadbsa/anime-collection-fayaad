@@ -3,15 +3,20 @@ import CollectionForm from "../Form/CollectionForm";
 
 type PropsType = {
   open: boolean;
+  defaultValue: string;
   handleClose: () => void;
 };
 
-const CreateCollectionModal = ({ open, handleClose }: PropsType) => {
+const EditCollectionModal = ({
+  open,
+  handleClose,
+  defaultValue,
+}: PropsType) => {
   return (
     <BaseModal open={open} onClose={handleClose}>
-      <CollectionForm handleCreated={handleClose} />
+      <CollectionForm handleCreated={handleClose} defaultValue={defaultValue} />
     </BaseModal>
   );
 };
 
-export default CreateCollectionModal;
+export default EditCollectionModal;

@@ -5,7 +5,7 @@ import { AnimeCardType, CollectionsType } from "@/types";
 type AppState = {
   collections: CollectionsType;
   createCollection: (collectionName: string) => void;
-  updateCollection: (collectionName: string, collectionNameNew: string) => void;
+  editCollection: (collectionName: string, collectionNameNew: string) => void;
   removeCollection: (collectionName: string) => void;
   addAnimeToCollection: (anime: AnimeCardType, collectionName: string) => void;
   removeAnimeFromCollection: (animeId: number, collectionName: string) => void;
@@ -19,21 +19,26 @@ const useAppStore = create<AppState>()(
         createCollection: (collectionName) =>
           set((state) => ({
             collections: {
-              ...state.collections,
               [collectionName]: {
                 name: collectionName,
                 animes: [],
               },
+              ...state.collections,
             },
           })),
-        updateCollection: (collectionName, collectionNameNew) =>
+        editCollection: (collectionName, collectionNameNew) =>
           set((state) => {
             const collectionDetail = state.collections[collectionName];
             const newCollection = state.collections;
             delete newCollection[collectionName];
-            newCollection[collectionNameNew] = collectionDetail;
             return {
-              collections: { ...newCollection },
+              collections: {
+                [collectionNameNew]: {
+                  ...collectionDetail,
+                  name: collectionNameNew,
+                },
+                ...newCollection,
+              },
             };
           }),
         removeCollection: (collectionName) =>

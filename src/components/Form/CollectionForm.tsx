@@ -7,6 +7,7 @@ import useAppStore from "@/store/useAppStore";
 
 type PropsType = {
   handleCreated: () => void;
+  defaultValue?: string;
 };
 
 type FormValues = {
@@ -27,9 +28,10 @@ const resolver: Resolver<FormValues> = async (values) => {
   };
 };
 
-const CreateCollectionForm = ({ handleCreated }: PropsType) => {
+const CollectionForm = ({ handleCreated, defaultValue }: PropsType) => {
   const collections = useAppStore((state) => state.collections);
   const createCollection = useAppStore((state) => state.createCollection);
+  const editCollection = useAppStore((state) => state.editCollection);
 
   const {
     register,
@@ -55,7 +57,12 @@ const CreateCollectionForm = ({ handleCreated }: PropsType) => {
       return;
     }
 
-    createCollection(data.name);
+    if (defaultValue) {
+      editCollection(defaultValue, data.name);
+    } else {
+      createCollection(data.name);
+    }
+
     reset();
     handleCreated();
   });
@@ -84,6 +91,7 @@ const CreateCollectionForm = ({ handleCreated }: PropsType) => {
       </Typography>
       <TextField
         {...register("name")}
+        defaultValue={defaultValue}
         variant="outlined"
         label="Name"
         error={!!errors.name}
@@ -96,4 +104,4 @@ const CreateCollectionForm = ({ handleCreated }: PropsType) => {
   );
 };
 
-export default CreateCollectionForm;
+export default CollectionForm;

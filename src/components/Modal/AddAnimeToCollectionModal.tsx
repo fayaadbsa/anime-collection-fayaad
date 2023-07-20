@@ -8,7 +8,7 @@ import useAppStore from "@/store/useAppStore";
 import { AnimeCardType, CollectionsType } from "@/types";
 import { BookmarkBorder, Bookmark } from "@mui/icons-material";
 import { Link } from "react-router-dom";
-import CreateCollectionForm from "../Form/CreateCollectionForm";
+import CollectionForm from "../Form/CollectionForm";
 
 type PropsType = {
   open: boolean;
@@ -94,7 +94,7 @@ const AddAnimeToCollectionModal = ({ open, handleClose, anime }: PropsType) => {
           </div>
         </Box>
       ) : (
-        <CreateCollectionForm
+        <CollectionForm
           handleCreated={() => {
             setHasCollection(true);
           }}
