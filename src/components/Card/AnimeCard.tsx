@@ -77,6 +77,7 @@ const AnimeCard = ({ anime, collectionName = "" }: PropsType) => {
             </Typography>
             <Typography
               variant="body2"
+              component={"div"}
               color="text.secondary"
               css={{
                 maxWidth: "100%",
@@ -86,9 +87,8 @@ const AnimeCard = ({ anime, collectionName = "" }: PropsType) => {
                 overflow: "hidden",
                 textOverflow: "ellipsis",
               }}
-            >
-              <div dangerouslySetInnerHTML={{ __html: description }} />
-            </Typography>
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
           </CardContent>
         </CardActionArea>
       </Link>

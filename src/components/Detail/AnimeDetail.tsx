@@ -71,9 +71,13 @@ const AnimeDetail = ({ anime }: PropsType) => {
             <Typography gutterBottom variant="h6" sx={{ color: "white" }}>
               Genres: {genres.join(", ")}
             </Typography>
-            <Typography gutterBottom variant="body2" color="white">
-              <div dangerouslySetInnerHTML={{ __html: description }} />
-            </Typography>
+            <Typography
+              gutterBottom
+              variant="body2"
+              color="white"
+              component="div"
+              dangerouslySetInnerHTML={{ __html: description }}
+            />
             <div
               css={{
                 display: "flex",

@@ -90,7 +90,7 @@ const AnimeListPage = () => {
             }}
           >
             {data.Page.media.map((anime: AnimeCardType) => {
-              return <AnimeCard anime={anime} />;
+              return <AnimeCard key={anime.id} anime={anime} />;
             })}
           </div>
         )}

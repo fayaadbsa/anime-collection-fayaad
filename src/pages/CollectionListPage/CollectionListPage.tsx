@@ -38,7 +38,9 @@ const CollectionListPage = () => {
         }}
       >
         {Object.values(collections).map((collection) => {
-          return <CollectionCard collection={collection} />;
+          return (
+            <CollectionCard key={collection.name} collection={collection} />
+          );
         })}
       </div>
     </div>

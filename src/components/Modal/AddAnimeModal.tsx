@@ -57,6 +57,7 @@ const AddAnimeModal = ({ open, handleClose, anime }: PropsType) => {
           >
             {collectionsFiltered.map((collection) => (
               <div
+                key={collection.name}
                 css={{
                   display: "flex",
                   alignItems: "center",

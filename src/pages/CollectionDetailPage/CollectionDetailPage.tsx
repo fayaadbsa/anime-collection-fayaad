@@ -54,8 +54,14 @@ const CollectionDetailPage = () => {
           justifyContent: "center",
         }}
       >
-        {collection.animes.map((anime: AnimeCardType) => {
-          return <AnimeCard anime={anime} collectionName={collectionName} />;
+        {collection.animes.map((anime) => {
+          return (
+            <AnimeCard
+              key={anime.id}
+              anime={anime}
+              collectionName={collectionName}
+            />
+          );
         })}
       </div>
     </div>
