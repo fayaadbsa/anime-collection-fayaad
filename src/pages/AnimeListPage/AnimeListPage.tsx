@@ -53,7 +53,7 @@ const AnimeListPage = () => {
   }, [data]);
 
   const handlePageChage = (
-    event: React.ChangeEvent<unknown>,
+    _event: React.ChangeEvent<unknown>,
     value: number
   ) => {
     setPage(value);

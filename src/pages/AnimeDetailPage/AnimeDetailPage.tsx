@@ -2,11 +2,7 @@ import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { Button, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
-import {
-  FavoriteRounded,
-  StarRounded,
-  BookmarkRounded,
-} from "@mui/icons-material";
+import { FavoriteRounded, StarRounded } from "@mui/icons-material";
 import { capitalCase } from "change-case";
 import { AnimeDetailType } from "@/types";
 import AddAnimeModal from "@/components/Modal/AddAnimeModal";
@@ -94,16 +90,7 @@ const AnimeDetailPage = () => {
   if (loading || error) return "";
 
   const anime: AnimeDetailType = data?.Media;
-  const {
-    id,
-    title,
-    bannerImage,
-    coverImage,
-    description,
-    rankings,
-    episodes,
-    genres,
-  } = anime;
+  const { title, coverImage, description, rankings, episodes, genres } = anime;
   const { extraLarge } = coverImage;
 
   return (

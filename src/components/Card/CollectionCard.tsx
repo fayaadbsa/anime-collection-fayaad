@@ -7,7 +7,6 @@ import Typography from "@mui/material/Typography";
 import { CardActionArea, CardActions, Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import RemoveCollectionModal from "../Modal/RemoveCollectionModal";
-import useAppStore from "@/store/useAppStore";
 import EditCollectionModal from "../Modal/EditCollectionModal";
 
 type PropsType = {

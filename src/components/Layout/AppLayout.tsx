@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../Navigation/Navbar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-import { red } from "@mui/material/colors";
 
 // type Props = {
 //   children?: React.ReactNode;
