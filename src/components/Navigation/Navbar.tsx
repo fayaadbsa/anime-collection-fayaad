@@ -22,7 +22,7 @@ const MENUS = [
     label: "For You",
   },
   {
-    path: "/collections",
+    path: "/collection",
     label: "Collection",
   },
 ];
