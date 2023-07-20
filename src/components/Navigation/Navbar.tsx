@@ -40,7 +40,8 @@ const Navbar = () => {
         <Toolbar
           sx={{
             height: 64,
-            background: "#11100e",
+            // background: "#11100e",
+            background: "#0a0c0f",
           }}
         >
           <IconButton

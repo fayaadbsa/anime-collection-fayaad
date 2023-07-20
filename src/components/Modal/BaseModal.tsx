@@ -7,16 +7,16 @@ import Fade from "@mui/material/Fade";
 type PropsType = {
   children?: React.ReactNode;
   open: boolean;
-  handleClose: () => void;
+  onClose: () => void;
 };
 
-const BaseModal = ({ children, open = false, handleClose }: PropsType) => {
+const BaseModal = ({ children, open = false, onClose }: PropsType) => {
   return (
     <Modal
       aria-labelledby="transition-modal-title"
       aria-describedby="transition-modal-description"
       open={open}
-      onClose={handleClose}
+      onClose={onClose}
       closeAfterTransition
       slots={{ backdrop: Backdrop }}
       slotProps={{

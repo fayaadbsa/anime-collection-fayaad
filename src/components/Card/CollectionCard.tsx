@@ -1,4 +1,4 @@
-import { AnimeCardType } from "@/types";
+import { CollectionDetailType } from "@/types";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -7,21 +7,15 @@ import { CardActionArea } from "@mui/material";
 import { Link } from "react-router-dom";
 
 type PropsType = {
-  anime: AnimeCardType;
+  collection: CollectionDetailType;
 };
 
-// add max height
-// add skeleton
-// remove desc, show other info
-
-const AnimeCard = ({ anime }: PropsType) => {
-  const { id, title, coverImage, description } = anime;
-  const { romaji } = title;
-  const { extraLarge } = coverImage;
+const CollectionCard = ({ collection }: PropsType) => {
+  const { name, animes } = collection;
 
   return (
-    <Card key={id} css={{ maxWidth: 400 }}>
-      <Link to={`/anime/${id}`}>
+    <Card key={name} css={{ maxWidth: 400 }}>
+      <Link to={`/collection/${name}`}>
         <CardActionArea
           css={{
             display: "flex",
@@ -33,8 +27,12 @@ const AnimeCard = ({ anime }: PropsType) => {
             component="img"
             height="300"
             css={{ minHeight: 300 }}
-            image={extraLarge}
-            alt={`${romaji} cover image`}
+            image={
+              animes.length > 0
+                ? animes[0].coverImage.extraLarge
+                : "src/images/placeholder.jpg"
+            }
+            alt={"Collection cover image"}
           />
           <CardContent
             css={{
@@ -45,21 +43,7 @@ const AnimeCard = ({ anime }: PropsType) => {
             }}
           >
             <Typography gutterBottom variant="h5">
-              {romaji}
-            </Typography>
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              css={{
-                maxWidth: "100%",
-                display: "-webkit-box",
-                WebkitBoxOrient: "vertical",
-                WebkitLineClamp: 4,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-            >
-              <div dangerouslySetInnerHTML={{ __html: description }} />
+              {name}
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -68,4 +52,4 @@ const AnimeCard = ({ anime }: PropsType) => {
   );
 };
 
-export default AnimeCard;
+export default CollectionCard;
