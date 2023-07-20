@@ -5,7 +5,7 @@ import AnimeDetailPage from "@/pages/AnimeDetailPage/AnimeDetailPage";
 import CollectionListPage from "@/pages/CollectionListPage/CollectionListPage";
 import CollectionDetailPage from "@/pages/CollectionDetailPage/CollectionDetailPage";
 import AppLayout from "@/components/Layout/AppLayout";
-import '@fontsource-variable/inter';
+import "@fontsource-variable/inter";
 
 const router = createBrowserRouter([
   {
@@ -21,11 +21,11 @@ const router = createBrowserRouter([
         element: <AnimeDetailPage />,
       },
       {
-        path: "collections",
+        path: "collection",
         element: <CollectionListPage />,
       },
       {
-        path: "collections/:id",
+        path: "collection/:id",
         element: <CollectionDetailPage />,
       },
     ],

@@ -93,14 +93,7 @@ const CreateCollectionModal = ({ open, handleClose }: PropsType) => {
           Create New Collection
         </Typography>
         <TextField
-          {...register("name", {
-            pattern: /[A]/,
-            // pattern: {
-            //   // value: /[^a-zA-Z0-9 ]/g,
-            //   value: /[^1-9]/g,
-            //   message: "Please don't use special character",
-            // },
-          })}
+          {...register("name")}
           variant="outlined"
           label="Name"
           error={!!errors.name}

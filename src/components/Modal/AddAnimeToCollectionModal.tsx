@@ -10,6 +10,7 @@ import Checkbox from "@mui/material/Checkbox";
 import useAppStore from "@/store/useAppStore";
 import { AnimeCardType, CollectionsType } from "@/types";
 import { BookmarkBorder, Bookmark } from "@mui/icons-material";
+import { Link } from "react-router-dom";
 
 type PropsType = {
   open: boolean;
@@ -36,22 +37,19 @@ const AddAnimeToCollectionModal = ({ open, handleClose, anime }: PropsType) => {
     isSaved: !!Object.values(collection.animes).find((a) => a?.id === anime.id),
   }));
 
-  // perlu sort by fav ?
-
-  // const handleBookmark = (   isSaved: boolean,  collectionName: string  ) => {
-  //   if (isSaved) {
-  //     removeAnimeFromCollection(anime.id, collectionName);
-  //     return;
-  //   }
-  //   addAnimeToCollection(anime, collectionName);
-  // };
-
-  const handleCloseForm = () => {
-    handleClose();
+  const handleBookmark = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    collectionName: string
+  ) => {
+    if (event.target.checked) {
+      addAnimeToCollection(anime, collectionName);
+      return;
+    }
+    removeAnimeFromCollection(anime.id, collectionName);
   };
 
   return (
-    <BaseModal open={open} onClose={handleCloseForm}>
+    <BaseModal open={open} onClose={handleClose}>
       <Box
         css={{
           display: "flex",
@@ -62,47 +60,35 @@ const AddAnimeToCollectionModal = ({ open, handleClose, anime }: PropsType) => {
           Add To Collection
         </Typography>
         <div>
-          {collectionsFiltered.map((collection) => {
-            const handleBookmark = (
-              event: React.ChangeEvent<HTMLInputElement>,
-              collectionName: string
-            ) => {
-              if (event.target.checked) {
-                addAnimeToCollection(anime, collectionName);
-                return;
-              }
-              removeAnimeFromCollection(anime.id, collectionName);
-            };
-
-            return (
-              <div
-                css={{
-                  display: "flex",
-                  alignItems: "center",
-                }}
+          {collectionsFiltered.map((collection) => (
+            <div
+              css={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <Checkbox
+                checked={collection.isSaved}
+                onChange={(event) => handleBookmark(event, collection.name)}
+                icon={<BookmarkBorder />}
+                checkedIcon={<Bookmark />}
+                inputProps={{ "aria-label": "bookmark" }}
+              />
+              <Link
+                to={`/collection/${collection.name}`}
+                css={{ width: "100%" }}
               >
-                <Checkbox
-                  checked={collection.isSaved}
-                  onChange={(event) => handleBookmark(event, collection.name)}
-                  icon={<BookmarkBorder />}
-                  checkedIcon={<Bookmark />}
-                  inputProps={{ "aria-label": "bookmark" }}
-                />
-                {/* <IconButton
-                  aria-label="bookmark"
+                <Button
+                  fullWidth
                   sx={{
-                    color: "primary.main",
+                    justifyContent: "start",
                   }}
-                  onClick={() =>
-                    handleBookmark(collection.name, collection.isSaved)
-                  }
                 >
-                  {collection.isSaved ? <Bookmark /> : <BookmarkBorder />}
-                </IconButton> */}
-                <Typography>{collection.name}</Typography>
-              </div>
-            );
-          })}
+                  <Typography>{collection.name}</Typography>
+                </Button>
+              </Link>
+            </div>
+          ))}
         </div>
       </Box>
     </BaseModal>

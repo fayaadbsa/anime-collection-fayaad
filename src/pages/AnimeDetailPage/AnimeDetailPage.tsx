@@ -2,11 +2,15 @@ import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { Button, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
-import { FavoriteRounded, StarRounded } from "@mui/icons-material";
+import {
+  FavoriteRounded,
+  StarRounded,
+  BookmarkRounded,
+} from "@mui/icons-material";
 import { capitalCase } from "change-case";
 import { AnimeDetailType } from "@/types";
-import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import useAppStore from "@/store/useAppStore";
+import CreateCollectionModal from "@/components/Modal/CreateCollectionModal";
 import AddAnimeToCollectionModal from "@/components/Modal/AddAnimeToCollectionModal";
 
 const GET_ANIME_DETAIL = gql(`
@@ -79,8 +83,10 @@ const GET_ANIME_DETAIL = gql(`
 
 const AnimeDetailPage = () => {
   const animeId = useParams()?.id || "";
+  const collections = useAppStore((state) => state.collections);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
+  const handleDoneCreateCollection = () => {};
   const handleClose = () => setOpen(false);
 
   const { loading, error, data } = useQuery(GET_ANIME_DETAIL, {
@@ -117,6 +123,12 @@ const AnimeDetailPage = () => {
         handleClose={handleClose}
         anime={anime}
       />
+      {/* {Object.keys(collections).length === 0 && (
+        <CreateCollectionModal
+          open={open}
+          handleClose={handleDoneCreateCollection}
+        />
+      )} */}
       {!loading && !error && (
         <div>
           {/* <img src={bannerImage} alt="banner" width={"100%"} /> */}
@@ -158,12 +170,12 @@ const AnimeDetailPage = () => {
                   sx={{ color: "white" }}
                   variant="contained"
                 >
-                  <BookmarkBorderRoundedIcon
+                  {/* <BookmarkRounded
                     sx={{
                       fontSize: 20,
                       marginRight: "8px",
                     }}
-                  />
+                  /> */}
                   <Typography variant="button">Add To Collection</Typography>
                 </Button>
               </div>
