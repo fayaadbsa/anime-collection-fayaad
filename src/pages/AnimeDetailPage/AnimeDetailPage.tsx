@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { gql, useQuery } from "@apollo/client";
 import { Button, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
@@ -6,6 +7,7 @@ import { capitalCase } from "change-case";
 import { AnimeDetailType } from "@/types";
 import BookmarkBorderRoundedIcon from "@mui/icons-material/BookmarkBorderRounded";
 import useAppStore from "@/store/useAppStore";
+import AddAnimeToCollectionModal from "@/components/Modal/AddAnimeToCollectionModal";
 
 const GET_ANIME_DETAIL = gql(`
   query ($id: Int) {
@@ -77,6 +79,9 @@ const GET_ANIME_DETAIL = gql(`
 
 const AnimeDetailPage = () => {
   const animeId = useParams()?.id || "";
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   const { loading, error, data } = useQuery(GET_ANIME_DETAIL, {
     variables: {
@@ -99,10 +104,6 @@ const AnimeDetailPage = () => {
   } = anime;
   const { extraLarge } = coverImage;
 
-  const handleBookmark = () => {
-    // cek bookmark
-  };
-
   return (
     <div
       css={{
@@ -111,6 +112,11 @@ const AnimeDetailPage = () => {
         alignItems: "center",
       }}
     >
+      <AddAnimeToCollectionModal
+        open={open}
+        handleClose={handleClose}
+        anime={anime}
+      />
       {!loading && !error && (
         <div>
           {/* <img src={bannerImage} alt="banner" width={"100%"} /> */}
@@ -148,7 +154,7 @@ const AnimeDetailPage = () => {
                 }}
               >
                 <Button
-                  onClick={handleBookmark}
+                  onClick={handleOpen}
                   sx={{ color: "white" }}
                   variant="contained"
                 >

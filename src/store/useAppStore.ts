@@ -1,10 +1,11 @@
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import { AnimeCardType, CollectionDetailType, CollectionsType } from "@/types";
+import { AnimeCardType, CollectionsType } from "@/types";
 
 type AppState = {
   collections: CollectionsType;
-  updateCollection: (collectionDetail: CollectionDetailType) => void;
+  createCollection: (collectionName: string) => void;
+  updateCollection: (collectionName: string, collectionNameNew: string) => void;
   removeCollection: (collectionName: string) => void;
   addAnimeToCollection: (anime: AnimeCardType, collectionName: string) => void;
   removeAnimeFromCollection: (animeId: number, collectionName: string) => void;
@@ -15,13 +16,26 @@ const useAppStore = create<AppState>()(
     persist(
       (set) => ({
         collections: {},
-        updateCollection: (collectionDetail) =>
+        createCollection: (collectionName) =>
           set((state) => ({
             collections: {
               ...state.collections,
-              [collectionDetail.name]: collectionDetail,
+              [collectionName]: {
+                name: collectionName,
+                animes: [],
+              },
             },
           })),
+        updateCollection: (collectionName, collectionNameNew) =>
+          set((state) => {
+            const collectionDetail = state.collections[collectionName];
+            const newCollection = state.collections;
+            delete newCollection[collectionName];
+            newCollection[collectionNameNew] = collectionDetail;
+            return {
+              collections: { ...newCollection },
+            };
+          }),
         removeCollection: (collectionName) =>
           set((state) => {
             const newCollection = state.collections;
@@ -33,22 +47,27 @@ const useAppStore = create<AppState>()(
         addAnimeToCollection: (anime, collectionName) =>
           set((state) => {
             const collection = state.collections[collectionName];
-            collection.animes[anime.id] = anime;
+            collection.animes.push({
+              id: anime.id,
+              title: anime.title,
+              description: anime.description,
+              coverImage: anime.coverImage,
+            });
             return {
               collections: {
                 ...state.collections,
-                collectionName: collection,
+                [collectionName]: collection,
               },
             };
           }),
         removeAnimeFromCollection: (animeId, collectionName) =>
           set((state) => {
             const collection = state.collections[collectionName];
-            delete collection.animes[animeId];
+            const newAnimes = collection.animes.filter((a) => a.id !== animeId);
             return {
               collections: {
                 ...state.collections,
-                collectionName: collection,
+                [collectionName]: { ...collection, animes: newAnimes },
               },
             };
           }),

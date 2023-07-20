@@ -28,7 +28,7 @@ const CollectionCard = ({ collection }: PropsType) => {
             height="300"
             css={{ minHeight: 300 }}
             image={
-              animes.length > 0
+              Object.keys(animes).length > 0
                 ? animes[0].coverImage.extraLarge
                 : "src/images/placeholder.jpg"
             }

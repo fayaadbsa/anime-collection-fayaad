@@ -2,13 +2,12 @@ import { useState } from "react";
 import useAppStore from "@/store/useAppStore";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import AddCollectionModal from "@/components/Modal/AddCollectionModal";
+import CreateCollectionModal from "@/components/Modal/CreateCollectionModal";
 import CollectionCard from "@/components/Card/CollectionCard";
 
 const CollectionListPage = () => {
-  const [open, setOpen] = useState(false);
   const collections = useAppStore((state) => state.collections);
-
+  const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
@@ -20,7 +19,7 @@ const CollectionListPage = () => {
         alignItems: "center",
       }}
     >
-      <AddCollectionModal open={open} handleClose={handleClose} />
+      <CreateCollectionModal open={open} handleClose={handleClose} />
       <Typography
         gutterBottom
         variant="h2"

@@ -30,13 +30,9 @@ const resolver: Resolver<FormValues> = async (values) => {
   };
 };
 
-// must unique
-// must not have special charac
-// error
-
-const AddCollectionModal = ({ open, handleClose }: PropsType) => {
+const CreateCollectionModal = ({ open, handleClose }: PropsType) => {
   const collections = useAppStore((state) => state.collections);
-  const updateCollection = useAppStore((state) => state.updateCollection);
+  const createCollection = useAppStore((state) => state.createCollection);
 
   const {
     register,
@@ -63,10 +59,7 @@ const AddCollectionModal = ({ open, handleClose }: PropsType) => {
       return;
     }
 
-    updateCollection({
-      name: data.name,
-      animes: [],
-    });
+    createCollection(data.name);
     reset();
     handleClose();
   });
@@ -121,4 +114,4 @@ const AddCollectionModal = ({ open, handleClose }: PropsType) => {
   );
 };
 
-export default AddCollectionModal;
+export default CreateCollectionModal;
