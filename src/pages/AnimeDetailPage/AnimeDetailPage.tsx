@@ -9,9 +9,7 @@ import {
 } from "@mui/icons-material";
 import { capitalCase } from "change-case";
 import { AnimeDetailType } from "@/types";
-import useAppStore from "@/store/useAppStore";
-import CreateCollectionModal from "@/components/Modal/CreateCollectionModal";
-import AddAnimeToCollectionModal from "@/components/Modal/AddAnimeToCollectionModal";
+import AddAnimeModal from "@/components/Modal/AddAnimeModal";
 
 const GET_ANIME_DETAIL = gql(`
   query ($id: Int) {
@@ -83,10 +81,8 @@ const GET_ANIME_DETAIL = gql(`
 
 const AnimeDetailPage = () => {
   const animeId = useParams()?.id || "";
-  const collections = useAppStore((state) => state.collections);
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
-  const handleDoneCreateCollection = () => {};
   const handleClose = () => setOpen(false);
 
   const { loading, error, data } = useQuery(GET_ANIME_DETAIL, {
@@ -118,11 +114,7 @@ const AnimeDetailPage = () => {
         alignItems: "center",
       }}
     >
-      <AddAnimeToCollectionModal
-        open={open}
-        handleClose={handleClose}
-        anime={anime}
-      />
+      <AddAnimeModal open={open} handleClose={handleClose} anime={anime} />
       {/* {Object.keys(collections).length === 0 && (
         <CreateCollectionModal
           open={open}

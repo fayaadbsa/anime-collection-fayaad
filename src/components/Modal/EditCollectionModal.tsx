@@ -3,18 +3,20 @@ import CollectionForm from "../Form/CollectionForm";
 
 type PropsType = {
   open: boolean;
-  defaultValue: string;
   handleClose: () => void;
+  defaultValue: string;
+  handleEdited?: (name: string) => void;
 };
 
 const EditCollectionModal = ({
   open,
   handleClose,
+  handleEdited,
   defaultValue,
 }: PropsType) => {
   return (
     <BaseModal open={open} onClose={handleClose}>
-      <CollectionForm handleCreated={handleClose} defaultValue={defaultValue} />
+      <CollectionForm defaultValue={defaultValue} handleEdited={handleEdited} />
     </BaseModal>
   );
 };

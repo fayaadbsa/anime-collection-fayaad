@@ -18,10 +18,18 @@ type PropsType = {
 
 // sort by saved
 
-const AddAnimeToCollectionModal = ({ open, handleClose, anime }: PropsType) => {
+const AddAnimeModal = ({ open, handleClose, anime }: PropsType) => {
   const collections: CollectionsType = useAppStore(
     (state) => state.collections
   );
+  const [hasCollection, setHasCollection] = useState(
+    Object.keys(collections).length > 0
+  );
+  const collectionsFiltered = Object.values(collections).map((collection) => ({
+    ...collection,
+    isSaved: !!Object.values(collection.animes).find((a) => a?.id === anime.id),
+  }));
+
   const addAnimeToCollection = useAppStore(
     (state) => state.addAnimeToCollection
   );
@@ -29,14 +37,7 @@ const AddAnimeToCollectionModal = ({ open, handleClose, anime }: PropsType) => {
     (state) => state.removeAnimeFromCollection
   );
 
-  const [hasCollection, setHasCollection] = useState(
-    Object.keys(collections).length > 0
-  );
-
-  const collectionsFiltered = Object.values(collections).map((collection) => ({
-    ...collection,
-    isSaved: !!Object.values(collection.animes).find((a) => a?.id === anime.id),
-  }));
+  const handleCreatedCollection = () => setHasCollection(true);
 
   const handleBookmark = (
     event: React.ChangeEvent<HTMLInputElement>,
@@ -94,14 +95,10 @@ const AddAnimeToCollectionModal = ({ open, handleClose, anime }: PropsType) => {
           </div>
         </Box>
       ) : (
-        <CollectionForm
-          handleCreated={() => {
-            setHasCollection(true);
-          }}
-        />
+        <CollectionForm handleCreated={handleCreatedCollection} />
       )}
     </BaseModal>
   );
 };
 
-export default AddAnimeToCollectionModal;
+export default AddAnimeModal;

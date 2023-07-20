@@ -6,7 +6,8 @@ import Box from "@mui/material/Box";
 import useAppStore from "@/store/useAppStore";
 
 type PropsType = {
-  handleCreated: () => void;
+  handleCreated?: () => void;
+  handleEdited?: (name: string) => void;
   defaultValue?: string;
 };
 
@@ -28,7 +29,11 @@ const resolver: Resolver<FormValues> = async (values) => {
   };
 };
 
-const CollectionForm = ({ handleCreated, defaultValue }: PropsType) => {
+const CollectionForm = ({
+  handleCreated,
+  defaultValue,
+  handleEdited,
+}: PropsType) => {
   const collections = useAppStore((state) => state.collections);
   const createCollection = useAppStore((state) => state.createCollection);
   const editCollection = useAppStore((state) => state.editCollection);
@@ -59,12 +64,13 @@ const CollectionForm = ({ handleCreated, defaultValue }: PropsType) => {
 
     if (defaultValue) {
       editCollection(defaultValue, data.name);
-    } else {
-      createCollection(data.name);
+      handleEdited && handleEdited(data.name);
+      return;
     }
 
+    createCollection(data.name);
+    handleCreated && handleCreated();
     reset();
-    handleCreated();
   });
 
   const isAlphanumeric = (name: string): boolean => {

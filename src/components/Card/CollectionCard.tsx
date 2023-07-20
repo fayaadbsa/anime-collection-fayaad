@@ -77,7 +77,7 @@ const CollectionCard = ({ collection }: PropsType) => {
         </Button>
         <Button
           size="small"
-          color="primary"
+          color="error"
           onClick={() => setOpenModalRemove(true)}
         >
           Remove

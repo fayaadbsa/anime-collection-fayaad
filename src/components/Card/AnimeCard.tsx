@@ -1,27 +1,55 @@
+import { useState } from "react";
 import { AnimeCardType } from "@/types";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, CardActions, Button } from "@mui/material";
 import { Link } from "react-router-dom";
+import RemoveAnimeModal from "../Modal/RemoveAnimeModal";
 
 type PropsType = {
   anime: AnimeCardType;
+  collectionName?: string;
 };
 
 // add max height
 // add skeleton
 // remove desc, show other info
 
-const AnimeCard = ({ anime }: PropsType) => {
+const AnimeCard = ({ anime, collectionName = "" }: PropsType) => {
+  const [openModalRemove, setOpenModalRemove] = useState(false);
+
   const { id, title, coverImage, description } = anime;
   const { romaji } = title;
   const { extraLarge } = coverImage;
 
   return (
-    <Card key={id} css={{ maxWidth: 400 }}>
-      <Link to={`/anime/${id}`}>
+    <Card
+      key={id}
+      css={{
+        maxWidth: 400,
+        ...(collectionName && {
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+        }),
+      }}
+    >
+      {collectionName && (
+        <RemoveAnimeModal
+          open={openModalRemove}
+          handleClose={() => setOpenModalRemove(false)}
+          anime={anime}
+          collectionName={collectionName}
+        />
+      )}
+      <Link
+        to={`/anime/${id}`}
+        css={{
+          height: "100%",
+        }}
+      >
         <CardActionArea
           css={{
             display: "flex",
@@ -64,6 +92,22 @@ const AnimeCard = ({ anime }: PropsType) => {
           </CardContent>
         </CardActionArea>
       </Link>
+      {collectionName && (
+        <CardActions
+          sx={{
+            display: "flex",
+            justifyContent: "end",
+          }}
+        >
+          <Button
+            size="small"
+            color="error"
+            onClick={() => setOpenModalRemove(true)}
+          >
+            Remove
+          </Button>
+        </CardActions>
+      )}
     </Card>
   );
 };
