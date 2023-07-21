@@ -24,11 +24,13 @@ const CollectionListPage = () => {
         gutterBottom
         variant="h2"
         component="div"
-        sx={{ color: "primary.main" }}
+        sx={{ color: "primary.main", fontWeight: 700 }}
       >
-        Collection List
+        Collections
       </Typography>
-      <Button onClick={handleOpen}>New Collection</Button>
+      <div css={{ alignSelf: "end" }}>
+        <Button variant="contained" onClick={handleOpen}>New Collection</Button>
+      </div>
       <div
         css={{
           display: "grid",

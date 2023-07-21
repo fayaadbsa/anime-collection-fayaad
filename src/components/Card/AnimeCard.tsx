@@ -29,6 +29,7 @@ const AnimeCard = ({
 }: PropsType) => {
   const [openModalRemove, setOpenModalRemove] = useState(false);
   const [selected, setSelected] = useState(defaultSelected);
+  const [hover, setHover] = useState(false);
 
   const { id, title, coverImage } = anime;
   const { romaji } = title;
@@ -38,13 +39,11 @@ const AnimeCard = ({
     <Card
       key={id}
       sx={{
-        maxWidth: 400,
+        maxWidth: 212,
         backgroundColor: "transparent",
-        // ...(collectionName && {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        // }),
       }}
     >
       {collectionName && (
@@ -55,44 +54,40 @@ const AnimeCard = ({
           collectionName={collectionName}
         />
       )}
-      <Link
-        to={selectable ? "#" : `/anime/${id}`}
-        css={{
-          height: "100%",
-        }}
-      >
+      <Link to={selectable ? "#" : `/anime/${id}`}>
         <CardActionArea
+          onClick={() => {
+            if (!selectable) {
+              return;
+            }
+            handleSelected && handleSelected(anime, selected);
+            setSelected(!selected);
+          }}
+          onMouseOver={() => setHover(true)}
+          onMouseOut={() => setHover(false)}
           sx={{
-            // display: "flex",
-            // flexDirection: "column",
             height: "100%",
-            // ":hover": {
-            //   // color: "red",
-            // },
           }}
         >
           <CardMedia
             component="img"
-            height="300"
-            css={{ minHeight: 300 }}
+            height="282"
+            css={{ minHeight: 282 }}
             image={extraLarge}
             alt={`${romaji} cover image`}
           />
           <CardContent
             sx={{
-              background: "white",
-              // display: "flex",
-              // flexDirection: "column",
-              // justifyContent: "space-between",
+              background: "#1A1C22",
               height: "100%",
-              // width: "100%",
+              paddingBottom: selectable || collectionName ? "0px" : "16px",
             }}
           >
             <Typography
               gutterBottom
-              variant="h6"
+              variant="body1"
               sx={{
-                // color: "primary.main",
+                color: hover ? "primary.main" : "white",
                 maxWidth: "100%",
                 display: "-webkit-box",
                 WebkitBoxOrient: "vertical",
@@ -103,34 +98,19 @@ const AnimeCard = ({
             >
               {romaji}
             </Typography>
-            {/* <Typography
-              variant="body2"
-              component={"div"}
-              color="text.secondary"
-              css={{
-                maxWidth: "100%",
-                display: "-webkit-box",
-                WebkitBoxOrient: "vertical",
-                WebkitLineClamp: 4,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
-              dangerouslySetInnerHTML={{ __html: description }}
-            /> */}
           </CardContent>
         </CardActionArea>
       </Link>
       {collectionName && (
         <CardActions
           sx={{
-            display: "flex",
-            // justifyContent: "end",
+            alignSelf: "end",
           }}
         >
           <Button
             size="small"
             color="error"
-            // variant="contained"
+            variant="outlined"
             onClick={() => setOpenModalRemove(true)}
           >
             Remove
@@ -138,17 +118,11 @@ const AnimeCard = ({
         </CardActions>
       )}
       {selectable && (
-        <CardActions
-          sx={{
-            display: "flex",
-            // justifyContent: "end",
-          }}
-        >
+        <CardActions>
           <Button
             size="small"
             variant="outlined"
             color={selected ? "error" : "primary"}
-            // disabled={selected}
             onClick={() => {
               handleSelected && handleSelected(anime, selected);
               setSelected(!selected);

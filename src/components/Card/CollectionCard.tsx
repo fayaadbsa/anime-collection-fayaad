@@ -17,9 +17,19 @@ const CollectionCard = ({ collection }: PropsType) => {
   const { name, animes } = collection;
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [openModalRemove, setOpenModalRemove] = useState(false);
+  const [hover, setHover] = useState(false);
 
   return (
-    <Card key={name} css={{ maxWidth: 400 }}>
+    <Card
+      key={name}
+      sx={{
+        maxWidth: 212,
+        backgroundColor: "transparent",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
+    >
       <EditCollectionModal
         open={openModalEdit}
         handleClose={() => setOpenModalEdit(false)}
@@ -31,11 +41,17 @@ const CollectionCard = ({ collection }: PropsType) => {
         name={collection.name}
       />
       <Link to={`/collection/${name}`}>
-        <CardActionArea>
+        <CardActionArea
+          onMouseOver={() => setHover(true)}
+          onMouseOut={() => setHover(false)}
+          sx={{
+            height: "100%",
+          }}
+        >
           <CardMedia
             component="img"
-            height="300"
-            css={{ minHeight: 300 }}
+            height="282"
+            css={{ minHeight: 282 }}
             image={
               Object.keys(animes).length > 0
                 ? animes[0].coverImage.extraLarge
@@ -45,16 +61,24 @@ const CollectionCard = ({ collection }: PropsType) => {
           />
           <CardContent
             css={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
+              background: "#1A1C22",
               height: "100%",
+              paddingBottom: "0px",
             }}
           >
             <Typography
               gutterBottom
-              variant="h5"
-              sx={{ wordBreak: "break-all" }}
+              variant="body1"
+              sx={{
+                color: hover ? "primary.main" : "white",
+                maxWidth: "100%",
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 2,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                wordBreak: "break-all",
+              }}
             >
               {name}
             </Typography>
@@ -70,13 +94,15 @@ const CollectionCard = ({ collection }: PropsType) => {
         <Button
           size="small"
           color="primary"
+          variant="outlined"
           onClick={() => setOpenModalEdit(true)}
-        >
+          >
           Edit
         </Button>
         <Button
           size="small"
           color="error"
+          variant="outlined"
           onClick={() => setOpenModalRemove(true)}
         >
           Remove

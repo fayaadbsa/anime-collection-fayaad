@@ -22,7 +22,7 @@ const AnimeDetailPage = () => {
 
   if (loading) return <Loading />;
   if (error)
-    return <Error error={JSON.stringify(error.graphQLErrors[0].message)} />;
+    return <Error error={error.message} />;
 
   return data && <AnimeDetail anime={data.Media} />;
 };

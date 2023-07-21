@@ -10,6 +10,8 @@ import Button from "@mui/material/Button";
 import BulkAddAnimeModal from "@/components/Modal/BulkAddAnimeModal";
 import { GET_ANIME_LIST } from "@/graphql/queries";
 import { GetAnimeListData, GetAnimeListVariables } from "@/graphql/types";
+import Loading from "@/components/Loading";
+import Error from "@/components/Error";
 
 const AnimeListPage = () => {
   const [page, setPage] = useState(1);
@@ -89,9 +91,9 @@ const AnimeListPage = () => {
         gutterBottom
         variant="h2"
         component="div"
-        sx={{ color: "primary.main" }}
+        sx={{ color: "primary.main", fontWeight: 700 }}
       >
-        Anime List
+        Popular Anime
       </Typography>
       <div css={{ alignSelf: "end" }}>
         {selectable ? (
@@ -120,14 +122,22 @@ const AnimeListPage = () => {
       </div>
       <div
         css={{
-          minHeight: "1028px",
+          display: "flex",
+          justifyContent: "center",
+          minHeight: "760px",
+          width: "100%",
         }}
       >
-        {!loading && !error && (
+        {loading ? (
+          <Loading />
+        ) : error ? (
+          <Error error={error.message} />
+        ) : (
           <div
             css={{
               display: "grid",
-              gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+              gridTemplateColumns: "repeat(auto-fill, minmax(212px, 1fr))",
+              width: "100%",
               gap: "32px",
               marginTop: "40px",
             }}
@@ -148,7 +158,7 @@ const AnimeListPage = () => {
       </div>
       <div
         css={{
-          marginTop: 40,
+          margin: "40px 0",
           backgroundColor: "whitesmoke",
           padding: 16,
           borderRadius: 96,

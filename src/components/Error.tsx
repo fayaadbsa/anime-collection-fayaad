@@ -1,6 +1,4 @@
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import { Link } from "react-router-dom";
 
 type PropsType = {
   error?: string;
@@ -24,9 +22,6 @@ const Error = ({ error }: PropsType) => {
           {error}
         </Typography>
       )}
-      <Link to="/">
-        <Button variant="contained">Back to Home</Button>
-      </Link>
     </div>
   );
 };

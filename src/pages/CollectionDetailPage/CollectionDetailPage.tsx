@@ -40,11 +40,15 @@ const CollectionDetailPage = () => {
         gutterBottom
         variant="h2"
         component="div"
-        sx={{ color: "primary.main" }}
+        sx={{ color: "primary.main", fontWeight: 700 }}
       >
         {collection.name}
       </Typography>
-      <Button onClick={handleOpen}>Edit Collection</Button>
+      <div css={{ alignSelf: "end" }}>
+        <Button variant="contained" onClick={handleOpen}>
+          Edit Collection
+        </Button>
+      </div>
       <div
         css={{
           display: "grid",
