@@ -3,7 +3,6 @@ import { Button, Typography, Chip } from "@mui/material";
 import {
   BookmarkBorderRounded,
   BookmarkRounded,
-  FavoriteRounded,
   StarRounded,
 } from "@mui/icons-material";
 import { capitalCase } from "change-case";

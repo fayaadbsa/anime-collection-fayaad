@@ -30,7 +30,7 @@ const AnimeCard = ({
   const [openModalRemove, setOpenModalRemove] = useState(false);
   const [selected, setSelected] = useState(defaultSelected);
 
-  const { id, title, coverImage, description } = anime;
+  const { id, title, coverImage } = anime;
   const { romaji } = title;
   const { extraLarge } = coverImage;
 
