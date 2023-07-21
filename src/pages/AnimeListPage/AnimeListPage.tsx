@@ -15,18 +15,20 @@ import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 
 const AnimeListPage = () => {
-  const [page, setPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(500);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(500);
   const [selectable, setSelectable] = useState(false);
   const [selected, setSelected] = useState<AnimeCardType[]>([]);
   const [open, setOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
-  const { loading, error, data } = useQuery<
-    GetAnimeListData,
-    GetAnimeListVariables
-  >(GET_ANIME_LIST, {
+  const {
+    loading,
+    error,
+    data
+  } = useQuery<GetAnimeListData, GetAnimeListVariables>(GET_ANIME_LIST, {
     variables: {
       page: page,
       perPage: 10,
@@ -66,9 +68,8 @@ const AnimeListPage = () => {
   const handleReset = () => {
     setSelected([]);
     setSelectable(false);
+    setMounted(!mounted);
   };
-
-  console.log(selected);
 
   const checkSelected = (animeId: number) => {
     return !!selected.find((anime) => anime.id === animeId);
@@ -145,10 +146,10 @@ const AnimeListPage = () => {
               marginTop: "40px",
             }}
           >
-            {animes.map((anime: AnimeCardType) => {
+            {animes.map((anime) => {
               return (
                 <AnimeCard
-                  key={anime.id}
+                  key={`${anime.id}-${mounted}`}
                   anime={anime}
                   selectable={selectable}
                   handleSelected={handleSelected}
