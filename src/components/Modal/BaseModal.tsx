@@ -32,11 +32,11 @@ const BaseModal = ({ children, open = false, onClose }: PropsType) => {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            width: 400,
+            width: { xs: 240, sm: 400 },
             borderRadius: "8px",
             bgcolor: "#2D2F34",
             boxShadow: 24,
-            p: 4,
+            p: { xs: "24px", sm: "32px" },
           }}
         >
           {children}

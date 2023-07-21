@@ -90,14 +90,18 @@ const CollectionForm = ({
       css={{
         display: "flex",
         flexDirection: "column",
+        gap: "24px",
       }}
     >
-      <Typography gutterBottom variant="h6">
+      <Typography gutterBottom variant="h5">
         Create New Collection
       </Typography>
       <TextField
         {...register("name")}
         defaultValue={defaultValue}
+        color="primary"
+        css={{ color: "primary" }}
+        focused
         variant="outlined"
         label="Name"
         error={!!errors.name}

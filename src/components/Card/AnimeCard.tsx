@@ -16,10 +16,6 @@ type PropsType = {
   defaultSelected?: boolean;
 };
 
-// add max height
-// add skeleton
-// remove desc, show other info
-
 const AnimeCard = ({
   anime,
   collectionName = "",
@@ -39,7 +35,7 @@ const AnimeCard = ({
     <Card
       key={id}
       sx={{
-        maxWidth: 212,
+        maxHeight: 400,
         backgroundColor: "transparent",
         display: "flex",
         flexDirection: "column",

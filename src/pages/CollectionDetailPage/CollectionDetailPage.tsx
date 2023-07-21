@@ -4,6 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Typography, Button } from "@mui/material";
 import AnimeCard from "@/components/Card/AnimeCard";
 import EditCollectionModal from "@/components/Modal/EditCollectionModal";
+import Box from "@mui/material/Box";
 
 const CollectionDetailPage = () => {
   const params = useParams();
@@ -28,6 +29,7 @@ const CollectionDetailPage = () => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        paddingBottom: "40px",
       }}
     >
       <EditCollectionModal
@@ -44,18 +46,24 @@ const CollectionDetailPage = () => {
       >
         {collection.name}
       </Typography>
-      <div css={{ alignSelf: "end" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: "16px",
+          alignSelf: { xs: "start", sm: "end" },
+        }}
+      >
         <Button variant="contained" onClick={handleOpen}>
           Edit Collection
         </Button>
-      </div>
+      </Box>
       <div
         css={{
           display: "grid",
-          gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+          gridTemplateColumns: "repeat(auto-fill, minmax(212px, 1fr))",
+          width: "100%",
           gap: "32px",
           marginTop: "40px",
-          justifyContent: "center",
         }}
       >
         {collection.animes.map((anime) => {

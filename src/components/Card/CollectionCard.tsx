@@ -23,7 +23,7 @@ const CollectionCard = ({ collection }: PropsType) => {
     <Card
       key={name}
       sx={{
-        maxWidth: 212,
+        maxHeight: 400,
         backgroundColor: "transparent",
         display: "flex",
         flexDirection: "column",
@@ -96,7 +96,7 @@ const CollectionCard = ({ collection }: PropsType) => {
           color="primary"
           variant="outlined"
           onClick={() => setOpenModalEdit(true)}
-          >
+        >
           Edit
         </Button>
         <Button

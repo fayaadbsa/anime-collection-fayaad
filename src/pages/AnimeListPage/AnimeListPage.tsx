@@ -5,6 +5,7 @@ import Pagination from "@mui/material/Pagination";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
+import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import BulkAddAnimeModal from "@/components/Modal/BulkAddAnimeModal";
@@ -95,14 +96,16 @@ const AnimeListPage = () => {
       >
         Popular Anime
       </Typography>
-      <div css={{ alignSelf: "end" }}>
+      <Box
+        sx={{
+          display: "flex",
+          gap: "16px",
+          alignSelf: { xs: "start", sm: "end" },
+        }}
+      >
         {selectable ? (
-          <div>
-            <Button
-              variant="outlined"
-              onClick={handleReset}
-              sx={{ marginRight: "16px" }}
-            >
+          <>
+            <Button variant="outlined" onClick={handleReset}>
               Cancel
             </Button>
             <Button
@@ -113,13 +116,13 @@ const AnimeListPage = () => {
             >
               Add To Collection
             </Button>
-          </div>
+          </>
         ) : (
           <Button variant="contained" onClick={handleSelect}>
             Bulk Add To Collection
           </Button>
         )}
-      </div>
+      </Box>
       <div
         css={{
           display: "flex",
@@ -159,12 +162,17 @@ const AnimeListPage = () => {
       <div
         css={{
           margin: "40px 0",
-          backgroundColor: "whitesmoke",
+          backgroundColor: "#1A1C22",
           padding: 16,
           borderRadius: 96,
         }}
       >
         <Pagination
+          sx={{
+            "& .MuiPaginationItem-root": {
+              color: "#fff",
+            },
+          }}
           count={totalPage}
           color="primary"
           size={!matches ? "small" : "large"}

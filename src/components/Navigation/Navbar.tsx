@@ -135,7 +135,9 @@ const Navbar = () => {
               {MENUS.map((item) => (
                 <ListItem key={item.label} disablePadding>
                   <ListItemButton sx={{ textAlign: "center", color: "white" }}>
-                    <ListItemText primary={item.label} />
+                    <Link to={item.path}>
+                      <ListItemText primary={item.label} />
+                    </Link>
                   </ListItemButton>
                 </ListItem>
               ))}
