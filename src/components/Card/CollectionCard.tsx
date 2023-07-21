@@ -13,6 +13,9 @@ type PropsType = {
   collection: CollectionDetailType;
 };
 
+const PLACEHOLDER_IMAGE =
+  "https://t3.ftcdn.net/jpg/02/68/55/60/360_F_268556012_c1WBaKFN5rjRxR2eyV33znK4qnYeKZjm.jpg";
+
 const CollectionCard = ({ collection }: PropsType) => {
   const { name, animes } = collection;
   const [openModalEdit, setOpenModalEdit] = useState(false);
@@ -55,7 +58,7 @@ const CollectionCard = ({ collection }: PropsType) => {
             image={
               Object.keys(animes).length > 0
                 ? animes[0].coverImage.extraLarge
-                : "src/images/placeholder.jpg"
+                : PLACEHOLDER_IMAGE
             }
             alt={"Collection cover image"}
           />
