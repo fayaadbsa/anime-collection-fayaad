@@ -14,6 +14,7 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <AppLayout />,
+    errorElement: <ErrorPage />,
     children: [
       {
         path: "",
@@ -31,12 +32,13 @@ const router = createBrowserRouter([
         path: "collection/:name",
         element: <CollectionDetailPage />,
       },
-      {
-        path: "*",
-        element: <ErrorPage />,
-      },
     ],
   },
+  // {
+  //   path: "*",
+  //   element: <AppLayout />,
+  //   children: [{ path: "", element: <ErrorPage /> }],
+  // },
 ]);
 
 const App = () => {
