@@ -1,4 +1,3 @@
-import "./App.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import AnimeListPage from "@/pages/AnimeListPage/AnimeListPage";
 import AnimeDetailPage from "@/pages/AnimeDetailPage/AnimeDetailPage";

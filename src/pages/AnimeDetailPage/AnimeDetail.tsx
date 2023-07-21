@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Typography } from "@mui/material";
+import { Button, Typography, Chip } from "@mui/material";
 import {
   BookmarkBorderRounded,
   BookmarkRounded,
@@ -16,12 +16,24 @@ type PropsType = {
 };
 
 const AnimeDetail = ({ anime }: PropsType) => {
-  const { title, coverImage, description, rankings, episodes, genres } = anime;
-  const { extraLarge } = coverImage;
+  const {
+    title,
+    coverImage,
+    description,
+    rankings,
+    episodes,
+    genres,
+    averageScore,
+    startDate,
+  } = anime;
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  const ranksAllTimeRated = rankings.find(
+    (rank) => rank.allTime && rank.type === "RATED"
+  );
 
   const collections = useAppStore((state) => state.collections);
   const [isCollected, setIsCollected] = useState(false);
@@ -39,132 +51,145 @@ const AnimeDetail = ({ anime }: PropsType) => {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        marginTop: "40px",
       }}
     >
       <AddAnimeModal open={open} handleClose={handleClose} anime={anime} />
-      <div>
-        {/* <img src={bannerImage} alt="banner" width={"100%"} /> */}
+      <div
+        css={{
+          display: "flex",
+          // justifyContent: "space-between",
+          width: "100%",
+          gap: 40,
+        }}
+      >
         <div
           css={{
             display: "flex",
-            gap: 40,
+            flexDirection: "column",
           }}
         >
-          <div
-            css={{
-              display: "flex",
-              flexDirection: "column",
+          <img src={coverImage.extraLarge} alt="cover" width={"300px"} />
+        </div>
+        <div
+          css={{
+            display: "flex",
+            flexDirection: "column",
+            gap: "8px",
+          }}
+        >
+          <Typography
+            gutterBottom
+            variant="h1"
+            sx={{
+              fontSize: "40px",
+              lineHeight: "1.2",
+              fontWeight: 800,
+              display: "-webkit-box",
+              WebkitBoxOrient: "vertical",
+              WebkitLineClamp: 2,
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
-            <Typography
-              gutterBottom
-              variant="h3"
-              sx={{ color: "primary.main" }}
-            >
-              {title.romaji}
-            </Typography>
-            <Typography gutterBottom variant="h6" sx={{ color: "white" }}>
-              Episodes: {episodes}
-            </Typography>
-            <Typography gutterBottom variant="h6" sx={{ color: "white" }}>
-              Genres: {genres.join(", ")}
-            </Typography>
-            <Typography
-              gutterBottom
-              variant="body2"
-              color="white"
-              component="div"
-              dangerouslySetInnerHTML={{ __html: description }}
-            />
-            <div
-              css={{
-                display: "flex",
-              }}
-            >
-              <Button
-                onClick={handleOpen}
-                sx={{ color: "white" }}
-                variant="contained"
-              >
-                {isCollected ? (
-                  <BookmarkRounded
-                    sx={{
-                      fontSize: 20,
-                      marginRight: "8px",
-                    }}
-                  />
-                ) : (
-                  <BookmarkBorderRounded
-                    sx={{
-                      fontSize: 20,
-                      marginRight: "8px",
-                    }}
-                  />
-                )}
-                <Typography variant="button">Add To Collection</Typography>
-              </Button>
-            </div>
+            {title.romaji}
+          </Typography>
+          <div>
+            {ranksAllTimeRated && (
+              <>
+                <Chip
+                  size="small"
+                  label={`Top ${ranksAllTimeRated?.rank}`}
+                  color="info"
+                  sx={{
+                    borderRadius: "4px 0 0 4px",
+                    backgroundColor: "#00c235",
+                    fontWeight: "700",
+                  }}
+                />
+                <Chip
+                  size="small"
+                  label={capitalCase(ranksAllTimeRated?.context)}
+                  color="info"
+                  sx={{ borderRadius: "0 4px 4px 0" }}
+                />
+              </>
+            )}
           </div>
           <div
             css={{
               display: "flex",
-              flexDirection: "column",
+              flexWrap: "wrap",
+              gap: "8px",
             }}
           >
-            <div>
-              <img src={extraLarge} alt="cover" width={"300px"} />
+            <div css={{ display: "flex", gap: "4px", alignItems: "center" }}>
+              <StarRounded sx={{ fontSize: "20px", color: "primary.main" }} />
+              <Typography sx={{ color: "primary.main", fontWeight: "500" }}>
+                {averageScore / 10}
+              </Typography>
             </div>
-            <div
-              css={{
-                display: "flex",
-                flexDirection: "column",
-                gap: "4px",
-                // width: "fit-content",
-              }}
+            <Typography sx={{ color: "info.light" }}>|</Typography>
+            <Typography>{startDate.year}</Typography>
+            <Typography sx={{ color: "info.light" }}>|</Typography>
+            <Typography>
+              {episodes > 1 ? `${episodes} Episodes` : `${episodes} Episode`}
+            </Typography>
+          </div>
+          <div
+            css={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: "8px",
+            }}
+          >
+            {genres.map((genre) => (
+              <Chip
+                key={genre}
+                size="small"
+                label={genre}
+                color="info"
+                sx={{ borderRadius: "4px" }}
+              />
+            ))}
+          </div>
+          <Typography
+            sx={{
+              marginTop: "16px",
+              marginBottom: "40px",
+              maxWidth: "800px",
+            }}
+            variant="body2"
+            component="div"
+            dangerouslySetInnerHTML={{ __html: description }}
+          />
+          <div
+            css={{
+              display: "flex",
+            }}
+          >
+            <Button
+              onClick={handleOpen}
+              sx={{ color: "white" }}
+              variant="contained"
             >
-              {rankings.length > 0 &&
-                rankings.map(
-                  (rank) =>
-                    rank.allTime && (
-                      <div
-                        key={rank.id}
-                        css={{
-                          display: "flex",
-                          alignItems: "center",
-                          background: "white",
-                          gap: 8,
-                          padding: "8px 12px",
-                          borderRadius: 8,
-                        }}
-                      >
-                        {rank.type === "RATED" ? (
-                          <StarRounded
-                            sx={{
-                              fontSize: 20,
-                              color: "#f7bf63",
-                            }}
-                          />
-                        ) : (
-                          <FavoriteRounded
-                            sx={{
-                              fontSize: 20,
-                              color: "#e85d75",
-                            }}
-                          />
-                        )}
-                        <Typography
-                          variant="subtitle2"
-                          sx={{
-                            color: "primary.main",
-                            fontWeight: 300,
-                          }}
-                        >
-                          {`#${rank.rank} ${capitalCase(rank.context)}`}
-                        </Typography>
-                      </div>
-                    )
-                )}
-            </div>
+              {isCollected ? (
+                <BookmarkRounded
+                  sx={{
+                    fontSize: 20,
+                    marginRight: "8px",
+                  }}
+                />
+              ) : (
+                <BookmarkBorderRounded
+                  sx={{
+                    fontSize: 20,
+                    marginRight: "8px",
+                  }}
+                />
+              )}
+              <Typography variant="button">Add To Collection</Typography>
+            </Button>
           </div>
         </div>
       </div>

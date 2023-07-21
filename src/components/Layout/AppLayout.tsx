@@ -10,7 +10,7 @@ const AppLayout = () => {
           maxWidth: "1280px",
           margin: "0 auto",
           padding: "80px 64px 40px 64px",
-          height: "80vh",
+          height: "60vh",
         }}
       >
         <Outlet />
