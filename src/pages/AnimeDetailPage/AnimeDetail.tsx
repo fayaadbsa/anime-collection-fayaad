@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Button, Typography, Chip } from "@mui/material";
+import { Button, Typography, Chip, Box } from "@mui/material";
 import {
   BookmarkBorderRounded,
   BookmarkRounded,
@@ -45,31 +45,40 @@ const AnimeDetail = ({ anime }: PropsType) => {
   }, [collections]);
 
   return (
-    <div
-      css={{
+    <Box
+      sx={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        marginTop: "40px",
+        padding: { xs: "0 0 40px 0", md: "40px 0" },
       }}
     >
       <AddAnimeModal open={open} handleClose={handleClose} anime={anime} />
-      <div
-        css={{
+      <Box
+        sx={{
           display: "flex",
-          // justifyContent: "space-between",
+          flexDirection: { xs: "column", md: "row" },
+          alignItems: { xs: "center", md: "start" },
           width: "100%",
-          gap: 40,
+          gap: "40px",
         }}
       >
-        <div
-          css={{
+        <Box
+          sx={{
             display: "flex",
             flexDirection: "column",
+            minWidth: { md: "360px" },
           }}
         >
-          <img src={coverImage.extraLarge} alt="cover" width={"300px"} />
-        </div>
+          <img
+            src={coverImage.extraLarge}
+            alt="cover"
+            css={{
+              width: "100%",
+              maxWidth: "360px",
+            }}
+          />
+        </Box>
         <div
           css={{
             display: "flex",
@@ -191,8 +200,8 @@ const AnimeDetail = ({ anime }: PropsType) => {
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

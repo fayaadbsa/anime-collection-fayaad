@@ -71,17 +71,14 @@ const BulkAddAnimeModal = ({
                   justifyContent: "space-between",
                 }}
               >
-                <Link to={`/collection/${collection.name}`}>
-                  <Typography
-                    sx={{
-                      justifyContent: "start",
-                      textDecoration: "underline",
-                      color: "primary.main",
-                    }}
-                  >
-                    {collection.name}
-                  </Typography>
-                </Link>
+                <Typography
+                  sx={{
+                    justifyContent: "start",
+                    color: "primary.main",
+                  }}
+                >
+                  {collection.name}
+                </Typography>
                 <Button
                   variant="contained"
                   disabled={collection.isSaved}

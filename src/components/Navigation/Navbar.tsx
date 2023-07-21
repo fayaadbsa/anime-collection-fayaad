@@ -133,13 +133,13 @@ const Navbar = () => {
             <Divider color="white" />
             <List>
               {MENUS.map((item) => (
-                <ListItem key={item.label} disablePadding>
-                  <ListItemButton sx={{ textAlign: "center", color: "white" }}>
-                    <Link to={item.path}>
+                <Link key={item.label} to={item.path}>
+                  <ListItem disablePadding>
+                    <ListItemButton sx={{ textAlign: "start", color: "white" }}>
                       <ListItemText primary={item.label} />
-                    </Link>
-                  </ListItemButton>
-                </ListItem>
+                    </ListItemButton>
+                  </ListItem>
+                </Link>
               ))}
             </List>
           </Box>
