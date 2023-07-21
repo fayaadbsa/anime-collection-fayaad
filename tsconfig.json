@@ -21,15 +21,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    // "baseUrl": "src",
-    // "paths": {
-    //   "@/*": ["*"]
-    // }
-    // "baseUrl": ".",
-    // "paths": {
-    //   "@/*": ["./src/*"]
-    // }
-    // "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]
     }

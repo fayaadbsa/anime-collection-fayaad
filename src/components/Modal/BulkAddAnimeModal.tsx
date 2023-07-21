@@ -24,11 +24,6 @@ const BulkAddAnimeModal = ({
   const [hasCollection, setHasCollection] = useState(
     Object.keys(collections).length > 0
   );
-  const collectionsFiltered = Object.values(collections).map((collection) => ({
-    ...collection,
-    isSaved: false,
-    // isSaved: !!Object.values(collection.animes).find((a) => a?.id === anime.id),
-  }));
 
   const bulkAddAnimeToCollection = useAppStore(
     (state) => state.bulkAddAnimeToCollection
@@ -61,7 +56,7 @@ const BulkAddAnimeModal = ({
               gap: "8px",
             }}
           >
-            {collectionsFiltered.map((collection) => (
+            {Object.values(collections).map((collection) => (
               <div
                 key={collection.name}
                 css={{
@@ -80,12 +75,9 @@ const BulkAddAnimeModal = ({
                 </Typography>
                 <Button
                   variant="contained"
-                  disabled={collection.isSaved}
                   onClick={() => handleAdd(collection.name)}
                 >
-                  <Typography>
-                    {collection.isSaved ? "Added" : "Add"}
-                  </Typography>
+                  <Typography>Add</Typography>
                 </Button>
               </div>
             ))}
