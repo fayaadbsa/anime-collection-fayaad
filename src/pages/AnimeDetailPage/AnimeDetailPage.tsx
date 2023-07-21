@@ -7,7 +7,8 @@ import Loading from "@/components/Loading";
 import Error from "@/components/Error";
 
 const AnimeDetailPage = () => {
-  const animeId = useParams()?.id || "";
+  const params = useParams();
+  const animeId = params.id || "";
 
   const {
     loading,
@@ -20,7 +21,8 @@ const AnimeDetailPage = () => {
   });
 
   if (loading) return <Loading />;
-  if (error) return <Error error={JSON.stringify(error)} />;
+  if (error)
+    return <Error error={JSON.stringify(error.graphQLErrors[0].message)} />;
 
   return data && <AnimeDetail anime={data.Media} />;
 };

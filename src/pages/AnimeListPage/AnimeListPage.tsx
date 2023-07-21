@@ -1,6 +1,6 @@
 import AnimeCard from "@/components/Card/AnimeCard";
 import { AnimeCardType } from "@/types";
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import Pagination from "@mui/material/Pagination";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
@@ -8,31 +8,8 @@ import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import BulkAddAnimeModal from "@/components/Modal/BulkAddAnimeModal";
-
-const GET_ANIME_LIST = gql(`
-  query ($page: Int, $perPage: Int) {
-    Page(page: $page, perPage: $perPage) {
-      pageInfo {
-        total
-        currentPage
-        lastPage
-        hasNextPage
-        perPage
-      }
-      media {
-        id
-        title {
-          romaji
-        }
-        coverImage {
-          extraLarge
-        }
-        bannerImage
-        description(asHtml: false)
-      }
-    }
-  }
-`);
+import { GET_ANIME_LIST } from "@/graphql/queries";
+import { GetAnimeListData, GetAnimeListVariables } from "@/graphql/types";
 
 const AnimeListPage = () => {
   const [page, setPage] = useState(1);
@@ -43,7 +20,10 @@ const AnimeListPage = () => {
   const [selected, setSelected] = useState<AnimeCardType[]>([]);
   const [open, setOpen] = useState(false);
 
-  const { loading, error, data } = useQuery(GET_ANIME_LIST, {
+  const { loading, error, data } = useQuery<
+    GetAnimeListData,
+    GetAnimeListVariables
+  >(GET_ANIME_LIST, {
     variables: {
       page: page,
       perPage: 10,

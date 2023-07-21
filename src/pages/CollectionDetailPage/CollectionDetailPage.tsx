@@ -6,7 +6,8 @@ import AnimeCard from "@/components/Card/AnimeCard";
 import EditCollectionModal from "@/components/Modal/EditCollectionModal";
 
 const CollectionDetailPage = () => {
-  const collectionName = useParams()?.name || "";
+  const params = useParams();
+  const collectionName = params.name || "";
   const collection = useAppStore((state) => state.collections)[collectionName];
   const navigate = useNavigate();
 

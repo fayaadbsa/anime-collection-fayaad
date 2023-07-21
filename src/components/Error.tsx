@@ -1,7 +1,9 @@
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 
 type PropsType = {
-  error: string;
+  error?: string;
 };
 
 const Error = ({ error }: PropsType) => {
@@ -14,12 +16,17 @@ const Error = ({ error }: PropsType) => {
         alignItems: "center",
       }}
     >
-      <Typography variant="h5" color="primary">
+      <Typography gutterBottom variant="h5" color="primary">
         Something went wrong 😔
       </Typography>
-      <Typography variant="body1" color="white">
-        {error}
-      </Typography>
+      {error && (
+        <Typography gutterBottom variant="body1" color="white">
+          {error}
+        </Typography>
+      )}
+      <Link to="/">
+        <Button variant="contained">Back to Home</Button>
+      </Link>
     </div>
   );
 };
