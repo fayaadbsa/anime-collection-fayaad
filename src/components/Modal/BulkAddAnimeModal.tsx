@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import useAppStore from "@/store/useAppStore";
 import { AnimeCardType } from "@/types";
-import { Link } from "react-router-dom";
 import CollectionForm from "../Form/CollectionForm";
 
 type PropsType = {
