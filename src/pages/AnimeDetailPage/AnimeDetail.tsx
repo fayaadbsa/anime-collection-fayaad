@@ -90,12 +90,12 @@ const AnimeDetail = ({ anime }: PropsType) => {
             gutterBottom
             variant="h1"
             sx={{
-              fontSize: "40px",
+              fontSize: { xs: "20px", md: "40px" },
               lineHeight: "1.2",
               fontWeight: 800,
               display: "-webkit-box",
               WebkitBoxOrient: "vertical",
-              WebkitLineClamp: 2,
+              WebkitLineClamp: 4,
               overflow: "hidden",
               textOverflow: "ellipsis",
             }}
