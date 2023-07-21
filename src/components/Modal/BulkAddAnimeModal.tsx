@@ -11,27 +11,36 @@ import CollectionForm from "../Form/CollectionForm";
 type PropsType = {
   open: boolean;
   handleClose: () => void;
-  anime: AnimeCardType;
+  animes: AnimeCardType[];
+  handleSuccess: () => void;
 };
 
-const AddAnimeModal = ({ open, handleClose, anime }: PropsType) => {
+const BulkAddAnimeModal = ({
+  open,
+  handleClose,
+  animes,
+  handleSuccess,
+}: PropsType) => {
   const collections = useAppStore((state) => state.collections);
   const [hasCollection, setHasCollection] = useState(
     Object.keys(collections).length > 0
   );
   const collectionsFiltered = Object.values(collections).map((collection) => ({
     ...collection,
-    isSaved: !!Object.values(collection.animes).find((a) => a?.id === anime.id),
+    isSaved: false,
+    // isSaved: !!Object.values(collection.animes).find((a) => a?.id === anime.id),
   }));
 
-  const addAnimeToCollection = useAppStore(
-    (state) => state.addAnimeToCollection
+  const bulkAddAnimeToCollection = useAppStore(
+    (state) => state.bulkAddAnimeToCollection
   );
 
   const handleCreatedCollection = () => setHasCollection(true);
 
   const handleAdd = (collectionName: string) => {
-    addAnimeToCollection(anime, collectionName);
+    bulkAddAnimeToCollection(animes, collectionName);
+    handleSuccess();
+    handleClose();
   };
 
   return (
@@ -44,7 +53,7 @@ const AddAnimeModal = ({ open, handleClose, anime }: PropsType) => {
           }}
         >
           <Typography gutterBottom variant="h6">
-            Add To Collection
+            Select Target Collection
           </Typography>
           <div
             css={{
@@ -93,4 +102,4 @@ const AddAnimeModal = ({ open, handleClose, anime }: PropsType) => {
   );
 };
 
-export default AddAnimeModal;
+export default BulkAddAnimeModal;

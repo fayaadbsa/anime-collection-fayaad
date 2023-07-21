@@ -11,14 +11,24 @@ import RemoveAnimeModal from "../Modal/RemoveAnimeModal";
 type PropsType = {
   anime: AnimeCardType;
   collectionName?: string;
+  selectable?: boolean;
+  handleSelected?: (props: AnimeCardType, isSelected: boolean) => void;
+  defaultSelected?: boolean;
 };
 
 // add max height
 // add skeleton
 // remove desc, show other info
 
-const AnimeCard = ({ anime, collectionName = "" }: PropsType) => {
+const AnimeCard = ({
+  anime,
+  collectionName = "",
+  selectable = false,
+  handleSelected,
+  defaultSelected = false,
+}: PropsType) => {
   const [openModalRemove, setOpenModalRemove] = useState(false);
+  const [selected, setSelected] = useState(defaultSelected);
 
   const { id, title, coverImage, description } = anime;
   const { romaji } = title;
@@ -27,13 +37,14 @@ const AnimeCard = ({ anime, collectionName = "" }: PropsType) => {
   return (
     <Card
       key={id}
-      css={{
+      sx={{
         maxWidth: 400,
-        ...(collectionName && {
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "space-between",
-        }),
+        backgroundColor: "transparent",
+        // ...(collectionName && {
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        // }),
       }}
     >
       {collectionName && (
@@ -45,16 +56,19 @@ const AnimeCard = ({ anime, collectionName = "" }: PropsType) => {
         />
       )}
       <Link
-        to={`/anime/${id}`}
+        to={selectable ? "#" : `/anime/${id}`}
         css={{
           height: "100%",
         }}
       >
         <CardActionArea
-          css={{
-            display: "flex",
-            flexDirection: "column",
+          sx={{
+            // display: "flex",
+            // flexDirection: "column",
             height: "100%",
+            // ":hover": {
+            //   // color: "red",
+            // },
           }}
         >
           <CardMedia
@@ -65,17 +79,31 @@ const AnimeCard = ({ anime, collectionName = "" }: PropsType) => {
             alt={`${romaji} cover image`}
           />
           <CardContent
-            css={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-between",
+            sx={{
+              background: "white",
+              // display: "flex",
+              // flexDirection: "column",
+              // justifyContent: "space-between",
               height: "100%",
+              // width: "100%",
             }}
           >
-            <Typography gutterBottom variant="h5">
+            <Typography
+              gutterBottom
+              variant="h6"
+              sx={{
+                // color: "primary.main",
+                maxWidth: "100%",
+                display: "-webkit-box",
+                WebkitBoxOrient: "vertical",
+                WebkitLineClamp: 2,
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+              }}
+            >
               {romaji}
             </Typography>
-            <Typography
+            {/* <Typography
               variant="body2"
               component={"div"}
               color="text.secondary"
@@ -88,7 +116,7 @@ const AnimeCard = ({ anime, collectionName = "" }: PropsType) => {
                 textOverflow: "ellipsis",
               }}
               dangerouslySetInnerHTML={{ __html: description }}
-            />
+            /> */}
           </CardContent>
         </CardActionArea>
       </Link>
@@ -96,15 +124,37 @@ const AnimeCard = ({ anime, collectionName = "" }: PropsType) => {
         <CardActions
           sx={{
             display: "flex",
-            justifyContent: "end",
+            // justifyContent: "end",
           }}
         >
           <Button
             size="small"
             color="error"
+            // variant="contained"
             onClick={() => setOpenModalRemove(true)}
           >
             Remove
+          </Button>
+        </CardActions>
+      )}
+      {selectable && (
+        <CardActions
+          sx={{
+            display: "flex",
+            // justifyContent: "end",
+          }}
+        >
+          <Button
+            size="small"
+            variant="outlined"
+            color={selected ? "error" : "primary"}
+            // disabled={selected}
+            onClick={() => {
+              handleSelected && handleSelected(anime, selected);
+              setSelected(!selected);
+            }}
+          >
+            {selected ? "Selected" : "Select"}
           </Button>
         </CardActions>
       )}

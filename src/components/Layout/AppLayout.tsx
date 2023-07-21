@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Navbar from "../Navigation/Navbar";
 import { ThemeProvider, createTheme } from "@mui/material/styles";
-
+import { buttonClasses } from "@mui/material/Button";
 // type Props = {
 //   children?: React.ReactNode;
 // };
@@ -11,9 +11,24 @@ const theme = createTheme({
     primary: {
       main: "#FF8E2B",
     },
+    action: {
+      disabledBackground: "main",
+      disabled: "main",
+    },
   },
   typography: {
     fontFamily: `"Inter", "Helvetica", "Arial", sans-serif`,
+  },
+  components: {
+    MuiButtonBase: {
+      styleOverrides: {
+        root: {
+          [`&.${buttonClasses.disabled}`]: {
+            opacity: 0.3,
+          },
+        },
+      },
+    },
   },
 });
 

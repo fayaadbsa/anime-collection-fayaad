@@ -1,6 +1,6 @@
 import { gql, useQuery } from "@apollo/client";
 import { useParams } from "react-router-dom";
-import AnimeDetail from "@/components/Detail/AnimeDetail";
+import AnimeDetail from "./AnimeDetail";
 
 const GET_ANIME_DETAIL = gql(`
   query ($id: Int) {

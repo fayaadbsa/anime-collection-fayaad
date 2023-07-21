@@ -7,7 +7,7 @@ import {
   StarRounded,
 } from "@mui/icons-material";
 import { capitalCase } from "change-case";
-import { AnimeDetailType, CollectionsType } from "@/types";
+import { AnimeDetailType } from "@/types";
 import AddAnimeModal from "@/components/Modal/AddAnimeModal";
 import useAppStore from "@/store/useAppStore";
 
@@ -23,9 +23,7 @@ const AnimeDetail = ({ anime }: PropsType) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const collections: CollectionsType = useAppStore(
-    (state) => state.collections
-  );
+  const collections = useAppStore((state) => state.collections);
   const [isCollected, setIsCollected] = useState(false);
 
   useEffect(() => {

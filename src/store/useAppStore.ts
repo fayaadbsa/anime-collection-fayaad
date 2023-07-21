@@ -8,6 +8,10 @@ type AppState = {
   editCollection: (collectionName: string, collectionNameNew: string) => void;
   removeCollection: (collectionName: string) => void;
   addAnimeToCollection: (anime: AnimeCardType, collectionName: string) => void;
+  bulkAddAnimeToCollection: (
+    animes: AnimeCardType[],
+    collectionName: string
+  ) => void;
   removeAnimeFromCollection: (animeId: number, collectionName: string) => void;
 };
 
@@ -65,10 +69,36 @@ const useAppStore = create<AppState>()(
               },
             };
           }),
+        bulkAddAnimeToCollection: (animes, collectionName) =>
+          set((state) => {
+            const collection = state.collections[collectionName];
+            const newAnimes = animes.map((anime) => ({
+              id: anime.id,
+              title: anime.title,
+              description: anime.description,
+              coverImage: anime.coverImage,
+            }));
+            const animeIds = new Set(
+              collection.animes.map((anime) => anime.id)
+            );
+            const mergedAnimes = [
+              ...collection.animes,
+              ...newAnimes.filter((anime) => !animeIds.has(anime.id)),
+            ];
+            collection.animes = mergedAnimes;
+            return {
+              collections: {
+                ...state.collections,
+                [collectionName]: collection,
+              },
+            };
+          }),
         removeAnimeFromCollection: (animeId, collectionName) =>
           set((state) => {
             const collection = state.collections[collectionName];
-            const newAnimes = collection.animes.filter((a) => a.id !== animeId);
+            const newAnimes = collection.animes.filter(
+              (anime) => anime.id !== animeId
+            );
             return {
               collections: {
                 ...state.collections,

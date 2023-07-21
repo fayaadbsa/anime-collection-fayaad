@@ -6,6 +6,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import { useTheme } from "@mui/material/styles";
 import React, { useEffect, useState } from "react";
 import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import BulkAddAnimeModal from "@/components/Modal/BulkAddAnimeModal";
 
 const GET_ANIME_LIST = gql(`
   query ($page: Int, $perPage: Int) {
@@ -33,10 +35,13 @@ const GET_ANIME_LIST = gql(`
 `);
 
 const AnimeListPage = () => {
+  const [page, setPage] = useState(1);
+  const [totalPage, setTotalPage] = useState(500);
   const theme = useTheme();
   const matches = useMediaQuery(theme.breakpoints.up("sm"));
-  const [page, setPage] = useState(0);
-  const [totalPage, setTotalPage] = useState(500);
+  const [selectable, setSelectable] = useState(false);
+  const [selected, setSelected] = useState<AnimeCardType[]>([]);
+  const [open, setOpen] = useState(false);
 
   const { loading, error, data } = useQuery(GET_ANIME_LIST, {
     variables: {
@@ -45,11 +50,12 @@ const AnimeListPage = () => {
     },
   });
 
+  const animes = data?.Page?.media || [];
+
   useEffect(() => {
-    if (loading || error || !data) {
-      return;
+    if (data) {
+      setTotalPage(data.Page.pageInfo.lastPage);
     }
-    setTotalPage(data?.Page?.pageInfo.lastPage);
   }, [data]);
 
   const handlePageChage = (
@@ -57,6 +63,32 @@ const AnimeListPage = () => {
     value: number
   ) => {
     setPage(value);
+  };
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleSelect = () => {
+    setSelectable(true);
+  };
+
+  const handleSelected = (anime: AnimeCardType, isSelected: boolean) => {
+    if (isSelected) {
+      setSelected([...selected.filter((a) => a.id !== anime.id)]);
+      return;
+    }
+    setSelected([...selected, anime]);
+  };
+
+  const handleReset = () => {
+    setSelected([]);
+    setSelectable(false);
+  };
+
+  console.log(selected);
+
+  const checkSelected = (animeId: number) => {
+    return !!selected.find((anime) => anime.id === animeId);
   };
 
   return (
@@ -67,6 +99,12 @@ const AnimeListPage = () => {
         alignItems: "center",
       }}
     >
+      <BulkAddAnimeModal
+        open={open}
+        handleClose={handleClose}
+        animes={selected}
+        handleSuccess={handleReset}
+      />
       <Typography
         gutterBottom
         variant="h2"
@@ -75,6 +113,31 @@ const AnimeListPage = () => {
       >
         Anime List
       </Typography>
+      <div css={{ alignSelf: "end" }}>
+        {selectable ? (
+          <div>
+            <Button
+              variant="outlined"
+              onClick={handleReset}
+              sx={{ marginRight: "16px" }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              onClick={handleOpen}
+              color="primary"
+              disabled={selected.length === 0}
+            >
+              Add To Collection
+            </Button>
+          </div>
+        ) : (
+          <Button variant="contained" onClick={handleSelect}>
+            Bulk Add To Collection
+          </Button>
+        )}
+      </div>
       <div
         css={{
           minHeight: "1028px",
@@ -89,8 +152,16 @@ const AnimeListPage = () => {
               marginTop: "40px",
             }}
           >
-            {data.Page.media.map((anime: AnimeCardType) => {
-              return <AnimeCard key={anime.id} anime={anime} />;
+            {animes.map((anime: AnimeCardType) => {
+              return (
+                <AnimeCard
+                  key={anime.id}
+                  anime={anime}
+                  selectable={selectable}
+                  handleSelected={handleSelected}
+                  defaultSelected={checkSelected(anime.id)}
+                />
+              );
             })}
           </div>
         )}

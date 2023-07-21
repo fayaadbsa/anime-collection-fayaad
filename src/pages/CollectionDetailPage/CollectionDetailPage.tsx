@@ -3,7 +3,6 @@ import useAppStore from "@/store/useAppStore";
 import { useNavigate, useParams } from "react-router-dom";
 import { Typography, Button } from "@mui/material";
 import AnimeCard from "@/components/Card/AnimeCard";
-import { AnimeCardType } from "@/types";
 import EditCollectionModal from "@/components/Modal/EditCollectionModal";
 
 const CollectionDetailPage = () => {
