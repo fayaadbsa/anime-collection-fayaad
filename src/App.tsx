@@ -5,7 +5,11 @@ import AnimeDetailPage from "@/pages/AnimeDetailPage/AnimeDetailPage";
 import CollectionListPage from "@/pages/CollectionListPage/CollectionListPage";
 import CollectionDetailPage from "@/pages/CollectionDetailPage/CollectionDetailPage";
 import AppLayout from "@/components/Layout/AppLayout";
-import "@fontsource-variable/inter";
+
+import "@fontsource/roboto/300.css";
+import "@fontsource/roboto/400.css";
+import "@fontsource/roboto/500.css";
+import "@fontsource/roboto/700.css";
 
 const router = createBrowserRouter([
   {
