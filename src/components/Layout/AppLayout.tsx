@@ -9,7 +9,7 @@ const AppLayout = () => {
         css={{
           maxWidth: "1280px",
           margin: "0 auto",
-          padding: "80px 24px 40px 24px",
+          padding: "80px 64px 40px 64px",
           height: "80vh",
         }}
       >
